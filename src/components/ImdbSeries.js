@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Fetch_Movies } from "./Movies";
+import "../index.css";
 
 import { styled } from "@mui/material/styles";
 import { Button } from "@mui/material";
@@ -17,7 +17,7 @@ const ImdbSeries = () => {
   const fetchMoviesHandler = useCallback(async () => {
     try {
       const response = await fetch(
-        "https://imdb-api.com/en/API/MostPopularTVs/k_yip52iqe/",
+        "https://imdb-api.com/en/API/Top250TVs/k_yip52iqe/",
         {
           method: "GET",
           headers: {},
@@ -35,6 +35,7 @@ const ImdbSeries = () => {
         return {
           id: movieData.id,
           title: movieData.title,
+          image: movieData.image,
           imdb: movieData.imDbRating,
           rank: movieData.rank,
           releaseYear: movieData.year,
@@ -77,36 +78,41 @@ const ImdbSeries = () => {
     <div className="imdb">
       <div>
         <Button variant="contained" onClick={fetchMoviesHandler}>
-          Fetch
+          Fetch Series
         </Button>
       </div>
       <div>
-        <TableContainer component={Paper} sx={{marginTop: '20px'}}>
+        <TableContainer component={Paper} sx={{ marginTop: "20px" }}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell align="left">Title</StyledTableCell>
                 <StyledTableCell align="left">Rank</StyledTableCell>
+                <StyledTableCell align="left">Title</StyledTableCell>
+                <StyledTableCell align="left">Image</StyledTableCell>
+
                 <StyledTableCell align="left">IMDB Rating</StyledTableCell>
                 <StyledTableCell align="left">Release Year</StyledTableCell>
                 <StyledTableCell align="left">Votes</StyledTableCell>
-                <StyledTableCell>ID</StyledTableCell>
+                {/* <StyledTableCell>ID</StyledTableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
               {Movies.map((row) => (
                 <StyledTableRow key={row.name}>
-                  
-                  <StyledTableCell align="left">{row.title}</StyledTableCell>
                   <StyledTableCell align="left">{row.rank}</StyledTableCell>
+                  <StyledTableCell align="left">{row.title}</StyledTableCell>
+                  <StyledTableCell align="left">
+                    <img className="movie-image" src={row.image} alt="image" />{" "}
+                  </StyledTableCell>
+
                   <StyledTableCell align="left">{row.imdb}</StyledTableCell>
                   <StyledTableCell align="left">
                     {row.releaseYear}
                   </StyledTableCell>
                   <StyledTableCell align="left">{row.votes}</StyledTableCell>
-                  <StyledTableCell component="th" scope="row">
+                  {/* <StyledTableCell component="th" scope="row">
                     {row.id}
-                  </StyledTableCell>
+                  </StyledTableCell> */}
                 </StyledTableRow>
               ))}
             </TableBody>

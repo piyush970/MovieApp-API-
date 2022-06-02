@@ -3,19 +3,73 @@ import { Button } from "@mui/material";
 import { useState } from "react";
 import { DUMMY_MOVIES } from "./Movies";
 import MovieDetails from "./MovieDetails";
-
-import ImportExportIcon from '@mui/icons-material/ImportExport';
-import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
-import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import ImportExportIcon from "@mui/icons-material/ImportExport";
+import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
 const MovieList = (props) => {
-
   const [name, setName] = useState("");
   const [foundMovies, setFoundMovies] = useState(DUMMY_MOVIES);
   const [showDetails, setShowDetails] = useState(false);
   const [movieDetails, setMovieDetails] = useState([]);
   const [sortActive, setSortActive] = useState("rawData");
   const [selected, setSelected] = useState(0);
+  const [toggle, setToggle] = useState(true);
+
+// let movieInterval;
+//   const toggleMovies = () => {
+//     setToggle(!toggle)
+    // if(toggle){
+    // movieInterval = setInterval(() => {
+    //   if(toggle){
+    //     movieToggle();
+    //   }
+      
+    //   else{
+    //     clearInterval(movieInterval);
+    //   }
+    // }, 1000);
+      // toggleMoviesHandler();
+    // }else if(!toggle){
+      
+    // }
+    // if (toggle) {
+    //   toggleMoviesHandler();
+    // } else if (!toggle) {
+    //   stopToggle();
+    // }
+  // };
+
+  // const toggleMoviesHandler = () => {
+    // setToggle(false);
+    // const movieInterval = setInterval(movieToggle, 1000);
+  // };
+
+  // let index = -1;
+  // function movieToggle() {
+  //   if (toggle) {
+  //     if (index === foundMovies.length) {
+  //       index = -1;
+  //     }
+  //     index = index + 1;
+  //     moviesHandler(foundMovies[index].id);
+  //   }
+  // }
+
+  // function stopToggle() {
+  //   setToggle(true);
+  //   clearInterval(toggleMoviesHandler);
+  // }
+
+  const moviesHandler = (key) => {
+    setShowDetails(true);
+    setSelected(key);
+    movieDetails.splice(0, movieDetails.length);
+    const updatedMovieDetails = DUMMY_MOVIES.filter(
+      (movie) => key === movie.id
+    );
+    setMovieDetails(updatedMovieDetails);
+  };
 
   const sortButtonHandler = () => {
     if (sortActive === "rawData") {
@@ -43,17 +97,6 @@ const MovieList = (props) => {
     setName(keyword);
   };
 
-  const moviesHandler = (key) => {
-    setShowDetails(true);
-    setSelected(key);
-    movieDetails.splice(0, movieDetails.length);
-    const updatedMovieDetails = DUMMY_MOVIES.filter(
-      (movie) => key === movie.id
-    );
-    setMovieDetails(updatedMovieDetails);
-  };
-
-
   let content;
   if (sortActive === "sortAZ") {
     content =
@@ -65,7 +108,7 @@ const MovieList = (props) => {
               key={movie.id}
               style={{ margin: "2px" }}
               // className={activeButton === movie.id ? `${classes.activeButton}` : ""}
-              variant= {movie.id === selected ? "contained" : "outlined" }
+              variant={movie.id === selected ? "contained" : "outlined"}
               onClick={() => moviesHandler(movie.id)}
             >
               {movie.title}
@@ -81,7 +124,7 @@ const MovieList = (props) => {
           <Button
             key={movie.id}
             style={{ margin: "2px" }}
-            variant= {movie.id === selected ? "contained" : "outlined" }
+            variant={movie.id === selected ? "contained" : "outlined"}
             onClick={() => moviesHandler(movie.id)}
           >
             {movie.title}
@@ -99,7 +142,7 @@ const MovieList = (props) => {
             <Button
               key={movie.id}
               style={{ margin: "2px" }}
-              variant= {movie.id === selected ? "contained" : "outlined" }
+              variant={movie.id === selected ? "contained" : "outlined"}
               onClick={() => moviesHandler(movie.id)}
             >
               {movie.title}
@@ -120,18 +163,33 @@ const MovieList = (props) => {
           className="input"
           placeholder="Search"
         />
-        {sortActive === 'rawData' && <button className="sort-button" onClick={sortButtonHandler}><ImportExportIcon/></button>}
-        {sortActive === 'sortAZ' && <button className="sort-button" onClick={sortButtonHandler}><KeyboardDoubleArrowUpIcon/></button>}
-        {sortActive === 'sortZA' && <button className="sort-button" onClick={sortButtonHandler}><KeyboardDoubleArrowDownIcon/></button>}
+        {sortActive === "rawData" && (
+          <button className="sort-button" onClick={sortButtonHandler}>
+            <ImportExportIcon />
+          </button>
+        )}
+        {sortActive === "sortAZ" && (
+          <button className="sort-button" onClick={sortButtonHandler}>
+            <KeyboardDoubleArrowUpIcon />
+          </button>
+        )}
+        {sortActive === "sortZA" && (
+          <button className="sort-button" onClick={sortButtonHandler}>
+            <KeyboardDoubleArrowDownIcon />
+          </button>
+        )}
       </div>
+      {/* <button onClick={toggleMovies}>Toggle</button> */}
       <div className="buttons-details">
         <div className="movie-list">{content}</div>
-        <div>{showDetails && <MovieDetails theme={props.theme} items={movieDetails} />}</div>
+        <div>
+          {showDetails && (
+            <MovieDetails theme={props.theme} items={movieDetails} />
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
 export default MovieList;
-
-

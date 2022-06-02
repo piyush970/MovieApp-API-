@@ -96,3 +96,8 @@
 .imdb-movies {
   list-style: none;
 }
+
+.movie-image {
+  height: 100px;
+  width: 80px;
+}

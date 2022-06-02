@@ -1,6 +1,6 @@
 import "../index.css";
 
-const MovieDetails = (props) => {
+const MovieDetails = (props, onToggle) => {
   return (
     <ul>
       {props.items.map((movie) => (
@@ -21,6 +21,7 @@ const MovieDetails = (props) => {
             <hr />
             <li>{movie.overview}</li>
           </div>
+          {/* <Button sx={{height: '30px'}} variant="contained">Toggle Movies</Button> */}
         </div>
       ))}
     </ul>

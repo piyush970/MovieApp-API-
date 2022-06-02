@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import MovieList from "./components/MovieList";
 import Imdb from "./components/Imdb";
 import ImdbSeries from "./components/ImdbSeries";
+import ImdbComingsoon from "./components/ImdbComingsoon";
 import "./index.css";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -17,21 +18,12 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 function App(props) {
   const [darkMode, setDarkMode] = useState(false);
-  const [toggleLinks, setToggleLinks] = useState(false);
 
   const theme = createTheme({
     palette: {
       mode: darkMode ? "dark" : "light",
     },
   });
-
-  const imdbLinksToggle = () => {
-    setToggleLinks(true);
-  };
-
-  const imdbLinksToggleFalse = () => {
-    setToggleLinks(false);
-  };
 
   const style = {
     textDecoration: "none",
@@ -46,12 +38,12 @@ function App(props) {
             <AppBar>
               <ul className="nav-links">
                 <li>
-                  <Link style={style} onClick={imdbLinksToggleFalse} to="/">
+                  <Link style={style} to="/">
                     Movie App
                   </Link>
                 </li>
                 <li>
-                  <Link style={style} onClick={imdbLinksToggleFalse} to="/">
+                  <Link style={style} to="/">
                     Home
                   </Link>
                 </li>
@@ -65,9 +57,10 @@ function App(props) {
                             background: darkMode ? "#121212" : "#1976d2",
                             border: "none",
                             fontSize: "22px",
-                            fontFamily : 'Times New Roman'
+                            fontFamily : 'Times New Roman',
+                            cursor: 'pointer'
                           }}
-                          onClick={imdbLinksToggle}
+                          
                           {...bindTrigger(popupState)}
                         >
                           IMDB
@@ -79,9 +72,11 @@ function App(props) {
                             </Link>
                           </MenuItem>
                           <MenuItem onClick={popupState.close}>
-                            <Link to="/ImdbShows" style={style}>Top Webshows</Link>
+                            <Link to="/ImdbShows" style={style}>Top 250 TVs</Link>
                           </MenuItem>
-                          <MenuItem onClick={popupState.close}>Logout</MenuItem>
+                          <MenuItem onClick={popupState.close}>
+                            <Link to="/comingsoon" style={style}>Coming Soon</Link>
+                          </MenuItem>
                         </Menu>
                       </React.Fragment>
                     )}
@@ -96,10 +91,11 @@ function App(props) {
                 </div>
               </ul>
             </AppBar>
-
+            
             <Routes>
               <Route path="/imdb" element={<Imdb />} />
               <Route path="/imdbShows" element={<ImdbSeries />} />
+              <Route path="/comingsoon" element={<ImdbComingsoon />} />
 
               <Route
                 path="/"
